@@ -1,0 +1,63 @@
++--------+-----------+----------------------------------------+-------------------------+------------------------------------------------------------------------+------------+
+| Domain | Method    | URI                                    | Name                    | Action                                                                 | Middleware |
++--------+-----------+----------------------------------------+-------------------------+------------------------------------------------------------------------+------------+
+|        | GET|HEAD  | /                                      |                         | Closure                                                                | web        |
+|        | GET|HEAD  | api/centrodecopiado                    | centrodecopiado.index   | App\Http\Controllers\ApiCentroDeCopiado@index                          | api        |
+|        | POST      | api/trabajos                           | trabajos.store          | App\Http\Controllers\ApiTrabajoController@store                        | api        |
+|        | GET|HEAD  | api/user                               |                         | Closure                                                                | api        |
+|        |           |                                        |                         |                                                                        | auth:api   |
+|        | POST      | caracteristicas                        | caracteristicas.store   | App\Http\Controllers\CaracteristicaController@store                    | web        |
+|        | GET|HEAD  | caracteristicas                        | caracteristicas.index   | App\Http\Controllers\CaracteristicaController@index                    | web        |
+|        | GET|HEAD  | caracteristicas/create                 | caracteristicas.create  | App\Http\Controllers\CaracteristicaController@create                   | web        |
+|        | DELETE    | caracteristicas/{caracteristica}       | caracteristicas.destroy | App\Http\Controllers\CaracteristicaController@destroy                  | web        |
+|        | PUT|PATCH | caracteristicas/{caracteristica}       | caracteristicas.update  | App\Http\Controllers\CaracteristicaController@update                   | web        |
+|        | GET|HEAD  | caracteristicas/{caracteristica}       | caracteristicas.show    | App\Http\Controllers\CaracteristicaController@show                     | web        |
+|        | GET|HEAD  | caracteristicas/{caracteristica}/edit  | caracteristicas.edit    | App\Http\Controllers\CaracteristicaController@edit                     | web        |
+|        | GET|HEAD  | centrodecopiado                        | centrodecopiado.index   | App\Http\Controllers\CentroDeCopiadoController@index                   | web        |
+|        | POST      | centrodecopiado                        | centrodecopiado.store   | App\Http\Controllers\CentroDeCopiadoController@store                   | web        |
+|        | GET|HEAD  | centrodecopiado/create                 | centrodecopiado.create  | App\Http\Controllers\CentroDeCopiadoController@create                  | web        |
+|        | GET|HEAD  | centrodecopiado/{centrodecopiado}      | centrodecopiado.show    | App\Http\Controllers\CentroDeCopiadoController@show                    | web        |
+|        | DELETE    | centrodecopiado/{centrodecopiado}      | centrodecopiado.destroy | App\Http\Controllers\CentroDeCopiadoController@destroy                 | web        |
+|        | PUT|PATCH | centrodecopiado/{centrodecopiado}      | centrodecopiado.update  | App\Http\Controllers\CentroDeCopiadoController@update                  | web        |
+|        | GET|HEAD  | centrodecopiado/{centrodecopiado}/edit | centrodecopiado.edit    | App\Http\Controllers\CentroDeCopiadoController@edit                    | web        |
+|        | GET|HEAD  | home                                   | home                    | App\Http\Controllers\HomeController@index                              | web        |
+|        |           |                                        |                         |                                                                        | auth       |
+|        | GET|HEAD  | login                                  | login                   | App\Http\Controllers\Auth\LoginController@showLoginForm                | web        |
+|        |           |                                        |                         |                                                                        | guest      |
+|        | POST      | login                                  |                         | App\Http\Controllers\Auth\LoginController@login                        | web        |
+|        |           |                                        |                         |                                                                        | guest      |
+|        | POST      | logout                                 | logout                  | App\Http\Controllers\Auth\LoginController@logout                       | web        |
+|        | GET|HEAD  | password/confirm                       | password.confirm        | App\Http\Controllers\Auth\ConfirmPasswordController@showConfirmForm    | web        |
+|        |           |                                        |                         |                                                                        | auth       |
+|        | POST      | password/confirm                       |                         | App\Http\Controllers\Auth\ConfirmPasswordController@confirm            | web        |
+|        |           |                                        |                         |                                                                        | auth       |
+|        | POST      | password/email                         | password.email          | App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail  | web        |
+|        | POST      | password/reset                         | password.update         | App\Http\Controllers\Auth\ResetPasswordController@reset                | web        |
+|        | GET|HEAD  | password/reset                         | password.request        | App\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm | web        |
+|        | GET|HEAD  | password/reset/{token}                 | password.reset          | App\Http\Controllers\Auth\ResetPasswordController@showResetForm        | web        |
+|        | GET|HEAD  | precios                                | precios.index           | App\Http\Controllers\PrecioController@index                            | web        |
+|        | POST      | precios                                | precios.store           | App\Http\Controllers\PrecioController@store                            | web        |
+|        | GET|HEAD  | precios/create                         | precios.create          | App\Http\Controllers\PrecioController@create                           | web        |
+|        | PUT|PATCH | precios/{precio}                       | precios.update          | App\Http\Controllers\PrecioController@update                           | web        |
+|        | GET|HEAD  | precios/{precio}                       | precios.show            | App\Http\Controllers\PrecioController@show                             | web        |
+|        | DELETE    | precios/{precio}                       | precios.destroy         | App\Http\Controllers\PrecioController@destroy                          | web        |
+|        | GET|HEAD  | precios/{precio}/edit                  | precios.edit            | App\Http\Controllers\PrecioController@edit                             | web        |
+|        | POST      | register                               |                         | App\Http\Controllers\Auth\RegisterController@register                  | web        |
+|        |           |                                        |                         |                                                                        | guest      |
+|        | GET|HEAD  | register                               | register                | App\Http\Controllers\Auth\RegisterController@showRegistrationForm      | web        |
+|        |           |                                        |                         |                                                                        | guest      |
+|        | POST      | trabajos                               | trabajos.store          | App\Http\Controllers\TrabajoController@store                           | web        |
+|        |           |                                        |                         |                                                                        | auth       |
+|        | GET|HEAD  | trabajos                               | trabajos.index          | App\Http\Controllers\TrabajoController@index                           | web        |
+|        |           |                                        |                         |                                                                        | auth       |
+|        | GET|HEAD  | trabajos/create                        | trabajos.create         | App\Http\Controllers\TrabajoController@create                          | web        |
+|        |           |                                        |                         |                                                                        | auth       |
+|        | PUT|PATCH | trabajos/{trabajo}                     | trabajos.update         | App\Http\Controllers\TrabajoController@update                          | web        |
+|        |           |                                        |                         |                                                                        | auth       |
+|        | GET|HEAD  | trabajos/{trabajo}                     | trabajos.show           | App\Http\Controllers\TrabajoController@show                            | web        |
+|        |           |                                        |                         |                                                                        | auth       |
+|        | DELETE    | trabajos/{trabajo}                     | trabajos.destroy        | App\Http\Controllers\TrabajoController@destroy                         | web        |
+|        |           |                                        |                         |                                                                        | auth       |
+|        | GET|HEAD  | trabajos/{trabajo}/edit                | trabajos.edit           | App\Http\Controllers\TrabajoController@edit                            | web        |
+|        |           |                                        |                         |                                                                        | auth       |
++--------+-----------+----------------------------------------+-------------------------+------------------------------------------------------------------------+------------+
