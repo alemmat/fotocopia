@@ -20,6 +20,7 @@ class CreateArchivosTable extends Migration
             $table->string('numero_de_paginas');
             $table->unsignedBigInteger('trabajo_id')->unsigned()->nullable();
             $table->foreign('trabajo_id')->references('id')->on('trabajos');
+            $table->enum('estado', ['finalizado', 'pendiente'])->default('pendiente');
         });
     }
 

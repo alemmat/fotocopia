@@ -1,9 +1,6 @@
 <template>
   <div>
 
-
-
-
     <gmap-map
       :center="center"
       :zoom="15"

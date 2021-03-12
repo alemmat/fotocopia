@@ -16,10 +16,10 @@ class CreateTrabajosTable extends Migration
         Schema::create('trabajos', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('cliente_id')->unsigned()->nullable();
             $table->unsignedBigInteger('centro_de_copiado_id')->unsigned()->nullable();
-            $table->foreign('cliente_id')->references('id')->on('clientes');
             $table->foreign('centro_de_copiado_id')->references('id')->on('centro_de_copiados');
+            $table->unsignedBigInteger('cliente_id')->unsigned()->nullable();
+            $table->foreign('cliente_id')->references('id')->on('clientes');
         });
     }
 

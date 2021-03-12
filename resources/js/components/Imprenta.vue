@@ -27,7 +27,7 @@
 
          <md-list-item v-if = "this.centroDeCopiado != null">
            <h5 >
-             Direccion: {{this.centroDeCopiado.direccion_nombre_de_la_calle}} {{this.centroDeCopiado.direccion_numero}}
+             Direccion: {{this.centroDeCopiado.direccion}}
            </h5>
          </md-list-item>
 

@@ -4,23 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Log;
-
-use Illuminate\Support\Str;
-
-use App\Models\CentroDeCopiado;
-
-use App\Models\Trabajo;
-
-class ApiTrabajoController extends Controller
+class ApiArchivoController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
-
+    public function index()
+    {
+        //
     }
 
     /**
@@ -29,17 +22,9 @@ class ApiTrabajoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request){
-
-      $centroDeCopiado = CentroDeCopiado::find( $request->input('centroDeCopiadoId') );
-
-      $trabajo = new Trabajo();
-
-      $trabajo->centroDeCopiado()->associate($centroDeCopiado);
-
-      $trabajo->save();
-
-      return $trabajo->id;
+    public function store(Request $request)
+    {
+        //
     }
 
     /**

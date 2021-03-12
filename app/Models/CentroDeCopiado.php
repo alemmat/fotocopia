@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Caracteristica;
 use App\Models\Precio;
 use App\Models\User;
+use App\Models\Trabajo;
 
 class CentroDeCopiado extends Model
 {
@@ -14,8 +15,7 @@ class CentroDeCopiado extends Model
 
     protected $fillable = [
         'nombre_del_punto_de_fotocopiado',
-        'direccion_nombre_de_la_calle',
-        'direccion_numero',
+        'direccion',
     ];
 
     public function caracteristicas(){
@@ -28,8 +28,27 @@ class CentroDeCopiado extends Model
         return $this->belongsToMany(Precio::class);
     }
 
+    public function trabajos(){
+
+        return $this->hasMany(Trabajo::class);
+    }
+
     public function user(){
 
         return $this->belongsToMany(User::class);
+    }
+
+    public function dueno(){
+
+        return $this->user()->whereHas('rol', function ($query)  {
+            $query->where('name','=','dueno');
+        })->get()->first();
+    }
+
+    public function empleado(){
+
+        return $this->user()->whereHas('rol', function ($query)  {
+            $query->where('name','=','empleado');
+        })->get();
     }
 }

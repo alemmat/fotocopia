@@ -8,7 +8,6 @@
 
       <md-app-content>
 
-
         <section>
 
           <div class="row justify-content-center" style="heigth:100%">
@@ -38,7 +37,7 @@
 
             <div style="padding-top: 2%;" class = "col-lg-12 col-md-12 col-sm-12">
 
-               <md-button class="md-raised md-raised md-primary big-button" @click="irASeccion">CARGAR ARCHIVOS</md-button>
+               <md-button class="md-raised md-raised md-primary big-button" @click="irASeccion('archivos')">CARGAR ARCHIVOS</md-button>
             </div>
           </div>
 
@@ -66,9 +65,21 @@
 
             <div style="padding-top: 2%;" class = "col-lg-12 col-md-12 col-sm-12">
 
-               <md-button class="md-raised md-raised md-primary big-button" @click="irASeccion">ABONAR</md-button>
+               <md-button class="md-raised md-raised md-primary big-button" @click="irASeccion('abonar')">ABONAR</md-button>
             </div>
           </div>
+
+        </section>
+
+        <section id="abonar" ref="abonar"  v-if = "this.selectImprenta != false" style="display: inline-block;">
+
+          <div class="row" >
+              <h1>hola</h1>
+          </div>
+
+
+
+
 
         </section>
 
@@ -119,7 +130,9 @@ export default {
 
      selectImprenta:false,
 
-     formData:null
+     formData:null,
+
+     idTrabajo:null
     }
   },
 
@@ -127,20 +140,54 @@ export default {
 
     irASeccion(seccion) {
 
+      var destino = '';
+
+      switch (seccion) {
+
+        case 'archivos':
+
+          destino = this.$refs.cargarArchivos;
+          break;
+
+        case 'abonar':
+
+          destino = this.$refs.abonar;
+          this.generarTrabajo();
+          this.postTrabajos();
+          break;
+
+        default:
+
+      }
+
       this.$smoothScroll({
-        scrollTo: this.$refs.cargarArchivos,
+        scrollTo: destino,
         duration: 1000,
       })
+    },
+
+    generarTrabajo(){
+
+      axios.post('/api/trabajos', {centroDeCopiadoId:this.centroDeCopiado.id})
+      .then(res => this.idTrabajo = res.data)
+      .catch(function (error) {
+          currentObj.output = error;
+      });
+
+      this.archivos.forEach((item, i) => {
+
+        item.idTrabajo = this.idTrabajo;
+      });
     },
 
     postTrabajos() {
 
       this.archivos.forEach((item, i) => {
 
+
+
         this.formData.append('archivo-'+item.id,item.file);
-        this.formData.append('desde-'+item.id,item.desde);
-        this.formData.append('hasta-'+item.id,item.hasta);
-        this.formData.append('comentarios-'+item.id,item.comentarios);
+        this.formData.append('metaDataArchivo'+item.id,JSON.stringify(item));
       });
 
       axios.post('/api/trabajos', this.formData)
@@ -203,7 +250,8 @@ export default {
        file:'',
        desde:'',
        hasta:'',
-       comentarios:''
+       comentarios:'',
+       idTrabajo:''
      };
 
      this.archivos = [...this.archivos, newArchivo]

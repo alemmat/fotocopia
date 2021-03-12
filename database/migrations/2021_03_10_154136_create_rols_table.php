@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdicionalesTable extends Migration
+class CreateRolsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateAdicionalesTable extends Migration
      */
     public function up()
     {
-        Schema::create('adicionales', function (Blueprint $table) {
+        Schema::create('rols', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('detalle')->unique();
+            $table->string('name');
+            $table->string('descripcion')->nullable();
         });
     }
 
@@ -27,6 +28,6 @@ class CreateAdicionalesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('adicionales');
+        Schema::dropIfExists('rols');
     }
 }

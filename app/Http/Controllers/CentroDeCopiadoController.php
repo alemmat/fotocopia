@@ -1,19 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-
 use App\Models\Caracteristica;
-
 use App\Models\CentroDeCopiado;
-
 use App\Models\User;
-
 use Illuminate\Support\Str;
-
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Support\Facades\Hash;
 use Config;
 
 class CentroDeCopiadoController extends Controller
@@ -25,6 +19,8 @@ class CentroDeCopiadoController extends Controller
      */
     public function index(){
 
+      $centrosDeCopiado = CentroDeCopiado::all();
+      return view( 'centrodecopiado.index' )->with( 'centrosDeCopiado', $centrosDeCopiado );
     }
 
     /**
@@ -34,8 +30,7 @@ class CentroDeCopiadoController extends Controller
      */
     public function create(){
 
-      $caracteristicas = Caracteristica::orderBy('detalle')->get();
-      return view( 'centrodecopiado.create' )->with( 'caracteristicas', $caracteristicas );
+      return view( 'centrodecopiado.create' );
     }
 
     /**
@@ -48,11 +43,33 @@ class CentroDeCopiadoController extends Controller
 
        $centroDeCopiado = CentroDeCopiado::create([
           'nombre_del_punto_de_fotocopiado' => $request->input('nombre_del_punto_de_fotocopiado'),
-          'direccion_nombre_de_la_calle' => $request->input('direccion_nombre_de_la_calle'),
-          'direccion_numero' => $request->input('direccion_numero'),
+          'direccion' => $request->input('direccion'),
       ]);
 
-       $caracteristicas = Caracteristica::all();
+      if(User::where( 'email', '=', $request->input( 'email_proprietario' ) )->exists() ){
+
+        $user = User::where( 'email', '=', $request->input( 'email_proprietario' ) )->get()->first();
+
+        $user->centrosDeCopiado()->attach($centroDeCopiado->id);
+      }
+      else{
+
+        $password = Hash::make( 123456789 );//'password' => Hash::make( Str::random(9) ),
+
+        $user = User::crearDueno([
+           'name' => $request->input('nombre_proprietario'),
+           'email' => $request->input('email_proprietario'),
+           'password' => $password,
+
+           ],
+           $centroDeCopiado
+        );
+      }
+
+      return redirect('/centrodecopiado');
+
+
+       /*$caracteristicas = Caracteristica::all();
 
        foreach ($caracteristicas as $caracteristica) {
 
@@ -60,18 +77,7 @@ class CentroDeCopiadoController extends Controller
 
            $centroDeCopiado->caracteristicas()->attach($request->input("caracteristica-".$caracteristica->id),['precio'=>$request->input("precio-".$caracteristica->id)]);
          }
-       }
-
-
-
-       $user = User::crearUsuario([
-          'name' => $request->input('nombre_proprietario'),
-          'email' => $request->input('email_proprietario'),
-          'password' => Str::random(9),
-      ]);
-
-
-
+       }*/
 
        //Config::set('mail.username', $this->empresa->empresa_mail);
        //Config::set('mail.password', $this->empresa->empresa_mail_password);
@@ -89,9 +95,11 @@ class CentroDeCopiadoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function show($id){
+
+      $centroDeCopiado = CentroDeCopiado::find($id);
+
+      return view( 'centrodecopiado.show' )->with( 'centroDeCopiado', $centroDeCopiado );
     }
 
     /**

@@ -17,8 +17,7 @@ class CreateCentroDeCopiadosTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('nombre_del_punto_de_fotocopiado');
-            $table->string('direccion_nombre_de_la_calle');
-            $table->string('direccion_numero');
+            $table->string('direccion');
         });
     }
 
