@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Trabajo;
+
 class TrabajoController extends Controller
 {
 
   public function __construct(){
 
-      $this->middleware('auth');
+      //$this->middleware('auth');
   }
     /**
      * Display a listing of the resource.
@@ -50,7 +52,9 @@ class TrabajoController extends Controller
      */
     public function show($id)
     {
-        //
+        $trabajo = Trabajo::find($id);
+
+        return $trabajo;
     }
 
     /**

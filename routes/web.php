@@ -25,7 +25,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('/trabajos',TrabajoController::class);
+Route::resource('/trabajos',TrabajoController::class)->only(['show']);
 Route::resource('/caracteristicas',CaracteristicaController::class);
 Route::resource('/centrodecopiado',CentroDeCopiadoController::class);
 Route::resource('/precios',PrecioController::class);

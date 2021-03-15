@@ -16,10 +16,10 @@ class CreateCentroDeCopiadoPrecioTable extends Migration
         Schema::create('centro_de_copiado_precio', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('precio_id')->unsigned()->nullable();
-            $table->foreign('precio_id')->references('id')->on('precios');
             $table->unsignedBigInteger('centro_de_copiado_id')->unsigned()->nullable();
             $table->foreign('centro_de_copiado_id')->references('id')->on('centro_de_copiados');
+            $table->unsignedBigInteger('precio_id')->unsigned()->nullable();
+            $table->foreign('precio_id')->references('id')->on('precios');
         });
     }
 

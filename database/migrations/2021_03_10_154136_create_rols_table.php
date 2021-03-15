@@ -19,6 +19,10 @@ class CreateRolsTable extends Migration
             $table->string('name');
             $table->string('descripcion')->nullable();
         });
+
+        Artisan::call('db:seed', [
+          '--class' => RolSeeder::class,
+        ]);
     }
 
     /**

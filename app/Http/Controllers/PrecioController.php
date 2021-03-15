@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Precio;
+use App\Models\CentroDeCopiado;
 
 class PrecioController extends Controller
 {
@@ -14,6 +16,10 @@ class PrecioController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
+
+      $user = Auth::user();
+
+      $centrosDeCopiado = $user->centrosDeCopiado()->get();
 
       $precios = Precio::orderBy('numero_de_impresiones')->get();
       return view( 'Precio.index' )->with( 'precios', $precios );
@@ -37,10 +43,18 @@ class PrecioController extends Controller
      */
     public function store(Request $request){
 
-      $precio = new Precio();
-      $precio->precio = $request->precio;
-      $precio->numero_de_impresiones = $request->numero_de_impresiones;
-      $precio->save();
+      return $request->all();
+
+      $user = Auth::user();
+
+      $centrosDeCopiado = $user->centrosDeCopiado()->get();
+
+      Precio::crearPrecio([
+         'precio' => $request->input('precio'),
+         'numero_de_impresiones' => $request->input('numero_de_impresiones'),
+         ],
+         $centrosDeCopiado);
+
       return redirect('/precios');
     }
 

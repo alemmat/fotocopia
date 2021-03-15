@@ -32,6 +32,8 @@
 
           </td>
 
+
+
         </tr>
 
       @endforeach
@@ -47,10 +49,14 @@
             <div class = "form-group">
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="detalle" name="numero_de_impresiones" minlength="1" data-required>
-                <label class="mdl-textfield__label" for="nombre"></label>
+                <label class="mdl-textfield__label" for="nombre">numero de paginanas a imprimir</label>
 
                 <input class="mdl-textfield__input" type="text" id="detalle" name="precio" minlength="1" data-required>
+                <label class="mdl-textfield__label" for="nombre">Precio</label>
+
+                <input type="checkbox" name="option[]" value="1" />
                 <label class="mdl-textfield__label" for="nombre"></label>
+                <input type="checkbox" name="option[]" value="2" />
               </div>
             </div>
           </div>
