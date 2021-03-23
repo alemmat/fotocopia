@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiTrabajoController;
 use App\Http\Controllers\ApiCentroDeCopiado;
+use App\Http\Controllers\ApiArchivoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('trabajos', ApiTrabajoController::class)->only([
+    'store'
+]);
+
+Route::apiResource('archivos', ApiArchivoController::class)->only([
     'store'
 ]);
 

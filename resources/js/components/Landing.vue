@@ -76,11 +76,6 @@
           <div class="row" >
               <h1>hola</h1>
           </div>
-
-
-
-
-
         </section>
 
 
@@ -120,7 +115,7 @@ export default {
 
      archivos:[],
 
-     contador:0,
+     contador:1,
 
      centroDeCopiados:null,
 
@@ -128,11 +123,13 @@ export default {
 
      adicionales:null,
 
+     precios:null,
+
      selectImprenta:false,
 
      formData:null,
 
-     idTrabajo:null
+     trabajo:null,
     }
   },
 
@@ -147,12 +144,13 @@ export default {
         case 'archivos':
 
           destino = this.$refs.cargarArchivos;
+          this.generarTrabajo();
           break;
 
         case 'abonar':
 
           destino = this.$refs.abonar;
-          this.generarTrabajo();
+
           this.postTrabajos();
           break;
 
@@ -166,38 +164,37 @@ export default {
       })
     },
 
+
     generarTrabajo(){
 
       axios.post('/api/trabajos', {centroDeCopiadoId:this.centroDeCopiado.id})
-      .then(res => this.idTrabajo = res.data)
+      .then(res => this.trabajo = res.data)
       .catch(function (error) {
           currentObj.output = error;
       });
 
-      this.archivos.forEach((item, i) => {
-
-        item.idTrabajo = this.idTrabajo;
-      });
     },
 
     postTrabajos() {
 
       this.archivos.forEach((item, i) => {
 
+        var formData = new FormData();
 
+        formData.append('trabajo',this.trabajo);
+        formData.append('archivo',item.file);
+        formData.append('metaDataArchivo',JSON.stringify(item));
 
-        this.formData.append('archivo-'+item.id,item.file);
-        this.formData.append('metaDataArchivo'+item.id,JSON.stringify(item));
-      });
+        axios.post('/api/archivos', formData)
+        .then(function (response) {
 
-      axios.post('/api/trabajos', this.formData)
-      .then(function (response) {
+          console.log(response.data);
+        })
+        .catch(function (error) {
 
-        console.log(response.data);
-      })
-      .catch(function (error) {
+          console.log(error);
 
-          currentObj.output = error;
+        });
       });
     },
 
@@ -206,6 +203,12 @@ export default {
       this.centroDeCopiado = centroDeCopiado;
 
       this.adicionales = centroDeCopiado.caracteristicas;
+
+      this.precios = centroDeCopiado.precios;
+
+      this.precios.sort(function(a, b) {
+        return a.numero_de_impresiones - b.numero_de_impresiones;
+      });
 
       this.selectImprenta = true;
     },
@@ -230,6 +233,8 @@ export default {
         case "hasta":
 
           this.archivo.hasta = value;
+
+          this.calcularPrecio(this.archivo)
           break;
 
         case "comentarios":
@@ -237,9 +242,19 @@ export default {
           this.archivo.comentarios = value;
           break;
 
-        default:
+        case "checkbox":
 
+          this.archivo.caracteristicas = value;
+          break;
+
+        default:
+          break;
       }
+   },
+
+   calcularPrecio(archivo){
+
+     archivo.precio = 50;
    },
 
    adicionarArchivo(){
@@ -251,7 +266,8 @@ export default {
        desde:'',
        hasta:'',
        comentarios:'',
-       idTrabajo:''
+       precio:null,
+       caracteristicas:null,
      };
 
      this.archivos = [...this.archivos, newArchivo]
@@ -260,14 +276,13 @@ export default {
 
   mounted() {
 
-    this.formData = new FormData();
-
     this.adicionarArchivo();
 
     axios.get('/api/centrodecopiado')
     .then(res => this.centroDeCopiados = res.data)
     .catch(err => console.log(err));
   },
+
 
 
 }

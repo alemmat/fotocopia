@@ -42,31 +42,10 @@
               <h5 >{{caracteristica.detalle}}</h5>
 
           </md-list-item>
-
-          <md-table-row>
-            <md-table-cell md-numeric>2</md-table-cell>
-            <md-table-cell>Odette Demageard</md-table-cell>
-            <md-table-cell>odemageard1@spotify.com</md-table-cell>
-            <md-table-cell>Female</md-table-cell>
-            <md-table-cell>Account Coordinator</md-table-cell>
-          </md-table-row>
-
          </div>
-
-
-
      </md-list>
 
-
-
-
-
   </div>
-
-
-
-
-
 
 </template>
 

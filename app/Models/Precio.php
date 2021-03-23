@@ -15,7 +15,7 @@ class Precio extends Model
         'numero_de_impresiones',
     ];
 
-    static function crearPrecio($datosNuevoPrecio, $centrosDeCopiado){
+    static function crearPrecioAsociarLasImprentas($datosNuevoPrecio, $centrosDeCopiado){
 
       $precio = self::create($datosNuevoPrecio);
 
@@ -28,5 +28,13 @@ class Precio extends Model
     public function centrosDeCopiado(){
 
       return $this->belongsToMany(CentroDeCopiado::class);
+    }
+
+    static function precioPorImprenta($centrosDeCopiado){
+
+      return self::whereHas('centrosDeCopiado', function($query) use($centrosDeCopiado){
+
+        $query->whereIn('centro_de_copiado_id', $centrosDeCopiado);
+      });
     }
 }

@@ -3,7 +3,7 @@
 
     <md-card>
       <md-card-header>
-        <div class="md-title">Archivo {{this.archivo.id}}</div>
+        <div class="md-title">Item {{this.archivo.id}} - Precio:${{this.archivo.precio}}</div>
       </md-card-header>
 
       <md-card-content>
@@ -18,7 +18,7 @@
             <div  class = "col-lg-6 col-md-6 col-sm-6">
               <md-field>
                 <label>Desde</label>
-                <md-input @input="inputEvent" @change="inputEvent" name="desde"></md-input>
+                <md-input  name="desde" v-model="desde"></md-input>
 
               </md-field>
 
@@ -28,7 +28,7 @@
             <div  class = "col-lg-6 col-md-6 col-sm-6">
               <md-field>
                 <label>Hasta</label>
-                <md-input @input="inputEvent" @change="inputEvent" name="hasta"></md-input>
+                <md-input name="hasta" v-model="hasta"></md-input>
 
               </md-field>
             </div>
@@ -37,7 +37,7 @@
 
           <md-field>
             <label>Comentarios</label>
-            <md-textarea md-autogrow name="comentarios" @input="inputEvent" @change="inputEvent"></md-textarea>
+            <md-textarea md-autogrow name="comentarios" v-model="comentarios"></md-textarea>
           </md-field>
 
           <div v-for="adicional in adicionales" :key="adicional.id" style="display: inline-block;">
@@ -58,7 +58,7 @@
 
 export default{
 
-  props:["archivo","adicionales"],
+  props:["archivo", "adicionales"],
 
   mounted(){
 
@@ -69,6 +69,12 @@ export default{
     return{
 
       checkbox:[],
+
+      desde:null,
+
+      hasta:null,
+
+      comentarios:null,
     }
   },
 
@@ -78,11 +84,29 @@ export default{
 
         this.$emit('sumarArchivo', this.archivo.id, e.target.files[0]);
       },
+  },
 
-      inputEvent({ type, target }) {
+  watch: {
 
-        this.$emit('inputEvent', this.archivo.id, target.name, target.value);
-     }
+    desde:function(){
+
+      this.$emit('inputEvent', this.archivo.id, 'desde', this.desde);
+    },
+
+    hasta:function(){
+
+      this.$emit('inputEvent', this.archivo.id, 'hasta', this.hasta);
+    },
+
+    comentarios:function(){
+
+      this.$emit('inputEvent', this.archivo.id, 'comentarios', this.comentarios);
+    },
+
+    checkbox:function(){
+
+      this.$emit('inputEvent', this.archivo.id, 'checkbox', this.checkbox);
+    }
   }
 }
 

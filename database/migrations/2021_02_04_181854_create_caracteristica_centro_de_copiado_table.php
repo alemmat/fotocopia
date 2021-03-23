@@ -20,7 +20,6 @@ class CreateCaracteristicaCentroDeCopiadoTable extends Migration
             $table->foreign('caracteristica_id')->references('id')->on('caracteristicas');
             $table->unsignedBigInteger('centro_de_copiado_id')->unsigned()->nullable();
             $table->foreign('centro_de_copiado_id')->references('id')->on('centro_de_copiados');
-            $table->float('precio', 8, 2)->unsigned()->nullable();
         });
     }
 

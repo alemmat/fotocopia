@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Caracteristica;
+use App\Models\CentroDeCopiado;
 
 class CaracteristicaController extends Controller
 {
@@ -20,8 +22,17 @@ class CaracteristicaController extends Controller
      */
     public function index(){
 
-        $caracteristicas = Caracteristica::orderBy('detalle')->get();
-        return view( 'caracteristica.index' )->with( 'caracteristicas', $caracteristicas );
+      $user = Auth::user();
+
+      $centrosDeCopiadoId = $user->centrosDeCopiadoId();
+
+      $centrosDeCopiado = $user->centrosDeCopiado()->get();
+
+      $caracteristicas = Caracteristica::caracteristicaPorImprenta($centrosDeCopiadoId)->get();
+
+      return view( 'caracteristica.index' )
+      ->with( 'caracteristicas', $caracteristicas )
+      ->with( 'centrosDeCopiado', $centrosDeCopiado );
     }
 
     /**
@@ -42,9 +53,29 @@ class CaracteristicaController extends Controller
      */
     public function store(Request $request){
 
-      $crc = new Caracteristica();
-      $crc->detalle = $request->detalle;
-      $crc->save();
+      $user = Auth::user();
+
+      if( $request->has('imprentas') ){
+
+        $centrosDeCopiado = CentroDeCopiado::find( $request->input('imprentas') );
+
+        Caracteristica::crearCaracteristicaAsociarLasImprentas([
+           'precio' => $request->input('precio'),
+           'detalle' => $request->input('detalle'),
+           ],
+           $centrosDeCopiado);
+
+      }else {
+
+        $centrosDeCopiado = $user->centrosDeCopiado()->get();
+
+        Caracteristica::crearCaracteristicaAsociarLasImprentas([
+           'precio' => $request->input('precio'),
+           'detalle' => $request->input('detalle'),
+           ],
+           $centrosDeCopiado);
+      }
+
       return redirect('/caracteristicas');
     }
 

@@ -6,7 +6,7 @@
 
       <archivoitem-component
       v-bind:archivo="archivo"
-      v-bind:adicionales="adicionales"      
+      v-bind:adicionales="adicionales"
       v-on:sumarArchivo="sumarArchivo"
       v-on:inputEvent="inputEvent"/>
 
@@ -20,7 +20,7 @@
 
 export default{
 
-  props: ["archivos","adicionales"],
+  props: ["archivos", "adicionales"],
   methods:{
     sumarArchivo(id, file){
 
@@ -30,6 +30,8 @@ export default{
     inputEvent(id, name, value) {
 
       this.$emit('inputEvent', id, name, value);
+
+
    }
   }
 }

@@ -54,7 +54,8 @@ class TrabajoController extends Controller
     {
         $trabajo = Trabajo::find($id);
 
-        return $trabajo;
+        return view( 'trabajo.index' )
+        ->with( 'trabajo', $trabajo );
     }
 
     /**

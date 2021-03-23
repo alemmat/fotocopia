@@ -16,7 +16,8 @@ class CreateCaracteristicasTable extends Migration
         Schema::create('caracteristicas', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('detalle')->unique();
+            $table->string('detalle');
+            $table->float('precio', 8, 2)->unsigned()->nullable();
         });
     }
 

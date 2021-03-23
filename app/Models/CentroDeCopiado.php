@@ -20,10 +20,10 @@ class CentroDeCopiado extends Model
 
     public function caracteristicas(){
 
-        return $this->belongsToMany(Caracteristica::class)->withPivot('precio')->withTimestamps();
+        return $this->belongsToMany(Caracteristica::class)->withTimestamps();
     }
 
-    public function precio(){
+    public function precios(){
 
         return $this->belongsToMany(Precio::class);
     }
@@ -49,6 +49,6 @@ class CentroDeCopiado extends Model
 
         return $this->user()->whereHas('rol', function ($query)  {
             $query->where('name','=','empleado');
-        })->get();
+        });
     }
 }

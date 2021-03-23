@@ -15,7 +15,7 @@ class ApiCentroDeCopiado extends Controller
      */
     public function index(){
 
-        return CentroDeCopiado::with('caracteristicas')->with('precio')->get();
+        return CentroDeCopiado::with('caracteristicas')->with('precios')->get();
     }
 
     /**

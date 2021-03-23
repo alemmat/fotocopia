@@ -17,7 +17,10 @@ class CreateArchivosTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('path')->unique();
-            $table->string('numero_de_paginas');
+            $table->string('desde');
+            $table->string('hasta');
+            $table->string('nombre');
+            $table->string('comentarios');
             $table->unsignedBigInteger('trabajo_id')->unsigned()->nullable();
             $table->foreign('trabajo_id')->references('id')->on('trabajos');
             $table->enum('estado', ['finalizado', 'pendiente'])->default('pendiente');

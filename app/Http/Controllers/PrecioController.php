@@ -19,10 +19,15 @@ class PrecioController extends Controller
 
       $user = Auth::user();
 
+      $centrosDeCopiadoId = $user->centrosDeCopiadoId();
+
       $centrosDeCopiado = $user->centrosDeCopiado()->get();
 
-      $precios = Precio::orderBy('numero_de_impresiones')->get();
-      return view( 'Precio.index' )->with( 'precios', $precios );
+      $precios = Precio::precioPorImprenta($centrosDeCopiadoId)->get();
+
+      return view( 'precio.index' )
+      ->with( 'precios', $precios )
+      ->with( 'centrosDeCopiado', $centrosDeCopiado );
     }
 
     /**
@@ -43,17 +48,28 @@ class PrecioController extends Controller
      */
     public function store(Request $request){
 
-      return $request->all();
-
       $user = Auth::user();
 
-      $centrosDeCopiado = $user->centrosDeCopiado()->get();
+      if( $request->has('imprentas') ){
 
-      Precio::crearPrecio([
-         'precio' => $request->input('precio'),
-         'numero_de_impresiones' => $request->input('numero_de_impresiones'),
-         ],
-         $centrosDeCopiado);
+        $centrosDeCopiado = CentroDeCopiado::find( $request->input('imprentas') );
+
+        Precio::crearPrecioAsociarLasImprentas([
+           'precio' => $request->input('precio'),
+           'numero_de_impresiones' => $request->input('numero_de_impresiones'),
+           ],
+           $centrosDeCopiado);
+
+      }else {
+
+        $centrosDeCopiado = $user->centrosDeCopiado()->get();
+
+        Precio::crearPrecioAsociarLasImprentas([
+           'precio' => $request->input('precio'),
+           'numero_de_impresiones' => $request->input('numero_de_impresiones'),
+           ],
+           $centrosDeCopiado);
+      }
 
       return redirect('/precios');
     }
@@ -100,6 +116,6 @@ class PrecioController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Precio::find($id)->centrosDeCopiado()->dettach();
     }
 }

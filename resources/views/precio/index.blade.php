@@ -12,6 +12,7 @@
       <tr>
         <th>numero de paginas</th>
         <th>valor</th>
+        <th>imprentas</th>
         <th>borrar</th>
 
       </tr>
@@ -24,6 +25,15 @@
           <td> {{ $precio->precio  }} </td>
 
           <td>
+            <ul>
+
+              @foreach ($precio->centrosDeCopiado()->get() as $centroDeCopiado)
+              <li>{{$centroDeCopiado->nombre_del_punto_de_fotocopiado}}</li>
+              @endforeach
+            </ul>
+          </td>
+
+          <td>
             {!! Form::open(['route' => ['precios.destroy', $precio->id ], 'method' => 'DELETE', 'files' => false])!!}
 
                  {!! Form::submit('borrar', ['class' => 'mdl-button mdl-js-button mdl-button--raised mdl-button--colored'])!!}
@@ -31,9 +41,6 @@
             {!! Form::close() !!}
 
           </td>
-
-
-
         </tr>
 
       @endforeach
@@ -54,9 +61,18 @@
                 <input class="mdl-textfield__input" type="text" id="detalle" name="precio" minlength="1" data-required>
                 <label class="mdl-textfield__label" for="nombre">Precio</label>
 
-                <input type="checkbox" name="option[]" value="1" />
-                <label class="mdl-textfield__label" for="nombre"></label>
-                <input type="checkbox" name="option[]" value="2" />
+                <ul>
+
+                  @foreach ($centrosDeCopiado as $centroDeCopiado)
+
+                    <li>
+
+                      <input type="checkbox" name="imprentas[]" value="{{$centroDeCopiado->id}}" />
+                      <label class="mdl-textfield__label" for="nombre">{{$centroDeCopiado->nombre_del_punto_de_fotocopiado}}</label>
+                    </li>
+                  @endforeach
+                </ul>
+
               </div>
             </div>
           </div>

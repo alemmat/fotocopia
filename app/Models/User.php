@@ -114,4 +114,9 @@ class User extends Authenticatable
 
       return $this->chequearRol('empleado');
     }
+
+    public function centrosDeCopiadoId(){
+
+      return $this->centrosDeCopiado()->pluck('centro_de_copiados.id')->toArray();
+    }
 }
