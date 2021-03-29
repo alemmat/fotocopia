@@ -121,7 +121,7 @@ input[type="file"]{
 }
 
 .md-card {
-  width: 300px;
+  width: 400px;
   margin: 4px;
   display: inline-block;
   vertical-align: top;

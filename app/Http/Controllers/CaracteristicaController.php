@@ -121,6 +121,12 @@ class CaracteristicaController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $caracteristica = Caracteristica::find($id);
+
+      $caracteristica->centrosDeCopiado()->detach();
+
+      $caracteristica->delete();
+
+      return redirect('/caracteristicas');
     }
 }

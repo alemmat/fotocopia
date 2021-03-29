@@ -17,18 +17,14 @@
               <imprenta-component
               v-bind:centroDeCopiados="centroDeCopiados"
               v-on:selectEvent="selectEvent"/>
-
             </div>
 
             <div style="position: block; margin:0 auto;" class = "col-lg-1 col-md-1 col-sm-1">
-
-
             </div>
 
             <div style="position: block; margin:0 auto;" class = "col-lg-6 col-md-6 col-sm-6">
 
               <maps-component/>
-
             </div>
 
           </div>
@@ -41,13 +37,11 @@
             </div>
           </div>
 
-
         </section>
-
 
         <section id="cargarArchivos" ref="cargarArchivos"  v-if = "this.selectImprenta != false" style="display: inline-block;">
 
-          <div class="row" >
+          <div class="row" style="position: block; margin:0 auto;" >
 
               <archivos-component
               v-bind:archivos="archivos"
@@ -73,8 +67,20 @@
 
         <section id="abonar" ref="abonar"  v-if = "this.selectImprenta != false" style="display: inline-block;">
 
-          <div class="row" >
-              <h1>hola</h1>
+          <div class="row justify-content-center">
+
+            <div style="position: block; margin:0 auto;" class = "col-lg-3 col-md-3 col-sm-3">
+
+
+            </div>
+
+            <div style="position: block; margin:0 auto;" class = "col-lg-3 col-md-3 col-sm-3">
+            </div>
+
+            <div style="position: block; margin:0 auto;" class = "col-lg-6 col-md-6 col-sm-6">
+
+            
+            </div>
           </div>
         </section>
 
@@ -150,7 +156,6 @@ export default {
         case 'abonar':
 
           destino = this.$refs.abonar;
-
           this.postTrabajos();
           break;
 
@@ -175,15 +180,15 @@ export default {
 
     },
 
-    postTrabajos() {
+    postTrabajos(){
 
-      this.archivos.forEach((item, i) => {
+      for (var i = 0; i < this.archivos.length; i++) {
 
         var formData = new FormData();
 
-        formData.append('trabajo',this.trabajo);
-        formData.append('archivo',item.file);
-        formData.append('metaDataArchivo',JSON.stringify(item));
+        formData.append( 'trabajo', this.trabajo );
+        formData.append( 'archivo', this.archivos[i].file) ;
+        formData.append( 'metaDataArchivo', JSON.stringify(this.archivos[i]) );
 
         axios.post('/api/archivos', formData)
         .then(function (response) {
@@ -193,9 +198,8 @@ export default {
         .catch(function (error) {
 
           console.log(error);
-
         });
-      });
+      }
     },
 
     selectEvent(centroDeCopiado){
@@ -227,12 +231,12 @@ export default {
 
         case "desde":
 
-          this.archivo.desde = value;
+          this.archivo.desde = parseInt(value, 10);
           break;
 
         case "hasta":
 
-          this.archivo.hasta = value;
+          this.archivo.hasta = parseInt(value, 10);
 
           this.calcularPrecio(this.archivo)
           break;
@@ -245,6 +249,7 @@ export default {
         case "checkbox":
 
           this.archivo.caracteristicas = value;
+          this.calcularAdicionales(this.archivo)
           break;
 
         default:
@@ -254,7 +259,52 @@ export default {
 
    calcularPrecio(archivo){
 
-     archivo.precio = 50;
+     if(archivo.desde < archivo.hasta){
+
+       var paginas =  parseInt( archivo.hasta - archivo.desde, 10);
+
+       for (var i = 0; i < this.precios.length; i++) {
+
+         if( i == 0 ){
+
+           if( paginas <= this.precios[i].numero_de_impresiones ){
+
+             archivo.precio = paginas * this.precios[i].precio;
+             break;
+           }
+         }else {
+
+           if( parseInt( this.precios[i-1].numero_de_impresiones, 10) < paginas ){
+
+             if( paginas <= parseInt( this.precios[i].numero_de_impresiones, 10 ) ){
+
+               archivo.precio = paginas * this.precios[i].precio;
+               break;
+             }
+           }
+         }
+       }
+     }
+   },
+
+   calcularAdicionales(archivo){
+
+     this.calcularPrecio(archivo);
+
+     for (var i = 0; i < archivo.caracteristicas.length; i++) {
+
+       this.adicional = this.adicionales.find(adicional => adicional.id == archivo.caracteristicas[i]);
+
+       console.log(this.adicional.coeficiente);
+
+       if(this.adicional.coeficiente){
+
+         archivo.precio = archivo.precio * (this.adicional.precio+1);
+       }else {
+
+         archivo.precio = archivo.precio + this.adicional.precio;
+       }
+     }
    },
 
    adicionarArchivo(){

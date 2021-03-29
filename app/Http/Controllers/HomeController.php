@@ -24,10 +24,6 @@ class HomeController extends Controller
      */
     public function index(){
 
-        $user = Auth::user();
-
-        $centrosDeCopiado = $user->centrosDeCopiado()->get();
-
-        return view( 'centrodecopiado.index-empleados' )->with( 'centrosDeCopiado', $centrosDeCopiado );
+      return redirect('/centrodecopiado');
     }
 }

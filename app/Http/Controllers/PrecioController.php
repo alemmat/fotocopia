@@ -116,6 +116,12 @@ class PrecioController extends Controller
      */
     public function destroy($id)
     {
-        Precio::find($id)->centrosDeCopiado()->dettach();
+        $precio = Precio::find($id);
+
+        $precio->centrosDeCopiado()->detach();
+
+        $precio->delete();
+
+        return redirect('/precios');
     }
 }

@@ -17,6 +17,7 @@ class CreateCaracteristicasTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('detalle');
+            $table->boolean('coeficiente')->default(false);
             $table->float('precio', 8, 2)->unsigned()->nullable();
         });
     }

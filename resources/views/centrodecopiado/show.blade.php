@@ -10,18 +10,18 @@
 
       <table style="width:100%">
       <tr>
-        <th>numero de trabajo</th>
-        <th>Dueno</th>
+        <th>Numero De trabajo</th>
+        <th>Archivos Pendientes</th>
 
 
       </tr>
 
-      @foreach ($centroDeCopiado->trabajos()->get() as $trabajo)
+      @foreach ($centroDeCopiado->trabajosPendientes()->get() as $trabajo)
 
         <tr>
 
           <td> {{ $trabajo->id }} </td>
-          <td> {{ $trabajo->id }} </td>
+          <td> {{ $trabajo->archivosPendientes() }} </td>
 
           <td>
             {!! Form::open(['route' => ['trabajos.show', $trabajo->id ], 'method' => 'GET', 'files' => false])!!}

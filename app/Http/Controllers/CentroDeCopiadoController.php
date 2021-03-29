@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Config;
+use Illuminate\Support\Facades\Auth;
 
 class CentroDeCopiadoController extends Controller
 {
@@ -19,8 +20,11 @@ class CentroDeCopiadoController extends Controller
      */
     public function index(){
 
-      $centrosDeCopiado = CentroDeCopiado::all();
-      return view( 'centrodecopiado.index' )->with( 'centrosDeCopiado', $centrosDeCopiado );
+      $user = Auth::user();
+
+      $centrosDeCopiado = $user->centrosDeCopiado()->get();
+
+      return view( 'centrodecopiado.index-empleados' )->with( 'centrosDeCopiado', $centrosDeCopiado );
     }
 
     /**
