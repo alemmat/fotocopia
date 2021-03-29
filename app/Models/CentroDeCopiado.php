@@ -25,7 +25,7 @@ class CentroDeCopiado extends Model
 
     public function precios(){
 
-        return $this->belongsToMany(Precio::class);
+        return $this->belongsToMany(Precio::class)->orderBy('numero_de_impresiones');
     }
 
     public function trabajos(){
@@ -49,6 +49,13 @@ class CentroDeCopiado extends Model
 
         return $this->user()->whereHas('rol', function ($query)  {
             $query->where('name','=','empleado');
+        });
+    }
+
+    public function trabajosPendientes(){
+
+        return $this->trabajos()->whereHas('archivos', function ($query)  {
+            $query->where('estado','=','pendiente');
         });
     }
 }

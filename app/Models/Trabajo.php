@@ -11,9 +11,6 @@ use App\Models\Archivo;
 class Trabajo extends Model
 {
 
-    protected $fillable = [
-        'name',
-    ];
     use HasFactory;
 
     public function caracteristicas(){
@@ -28,6 +25,13 @@ class Trabajo extends Model
 
     public function archivos(){
 
-        return $this->hasMany(Archivo::class);
+      return $this->hasMany(Archivo::class);
     }
+
+    public function archivosPendientes(){
+
+      return $this->archivos()->where('estado', '=', 'pendiente')->count();
+    }
+
+    
 }
