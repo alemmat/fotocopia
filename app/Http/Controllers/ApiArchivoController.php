@@ -14,6 +14,8 @@ class ApiArchivoController extends Controller
 
     public function store(Request $request){
 
+      Log::debug($request);
+
       $metaDataArchivo = json_decode( $request->input('metaDataArchivo') );
 
       $path = $request->file('archivo')->store('archivo');

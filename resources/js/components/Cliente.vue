@@ -7,7 +7,7 @@
        <md-list-item>
          <md-field>
            <label>Email</label>
-           <md-input name="email" @input="inputEvent" @change="inputEvent"></md-input>
+           <md-input name="email"  v-model="email"></md-input>
            <span class="md-helper-text"></span>
          </md-field>
 
@@ -17,7 +17,7 @@
 
          <md-field>
            <label>Telefono</label>
-           <md-input name="telefono" @input="inputEvent" @change="inputEvent"></md-input>
+           <md-input name="telefono" v-model="telefono"></md-input>
            <span class="md-helper-text"></span>
          </md-field>
 
@@ -32,14 +32,33 @@
 
 export default{
 
+  data(){
+
+    return{
+
+      email:null,
+
+      telefono:null,
+    }
+  },
+
 
   methods: {
 
+  },
 
-      inputEvent({ type, target }) {
+  watch: {
 
-        this.$emit('inputEvent', 0, target.name, target.value);
-     }
+    email:function(){
+
+      this.$emit('inputEvent', 0, 'email', this.email);
+    },
+
+    telefono:function(){
+
+      this.$emit('inputEvent', 0, 'telefono', this.telefono);
+    },
+
   }
 }
 

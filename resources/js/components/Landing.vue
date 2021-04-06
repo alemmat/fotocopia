@@ -73,14 +73,16 @@
 
               <h1 class="md-title">Datos cliente</h1>
 
-              <cliente-component/>
+              <cliente-component v-on:inputEvent="inputEvent"/>
             </div>
 
 
             <div style="position: block; margin:0 auto;" class = "col-lg-6 col-md-6 col-sm-6">
 
-              <preciofinal-component v-on:inputEvent="inputEvent" v-bind:archivos="archivos"/>
+              <preciofinal-component v-bind:archivos="archivos"/>
             </div>
+
+            <md-button class="md-raised md-raised md-primary big-button" @click="">abonar</md-button>
           </div>
         </section>
 
@@ -152,13 +154,13 @@ export default {
         case 'archivos':
 
           destino = this.$refs.cargarArchivos;
-          this.generarTrabajo();
+          //this.generarTrabajo();
           break;
 
         case 'abonar':
 
           destino = this.$refs.abonar;
-          this.postTrabajos();
+          //this.postTrabajos();
           break;
 
         default:
@@ -226,6 +228,7 @@ export default {
     },
 
     inputEvent(id, name, value) {
+
 
       this.archivo = this.archivos.find(archivo => archivo.id == id );
 
