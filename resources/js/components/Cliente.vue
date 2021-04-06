@@ -1,11 +1,13 @@
 <template>
 
+
+
     <md-list>
 
        <md-list-item>
          <md-field>
            <label>Email</label>
-           <md-input name="desde" @input="inputEvent" @change="inputEvent"></md-input>
+           <md-input name="email" @input="inputEvent" @change="inputEvent"></md-input>
            <span class="md-helper-text"></span>
          </md-field>
 
@@ -15,7 +17,7 @@
 
          <md-field>
            <label>Telefono</label>
-           <md-input name="desde" @input="inputEvent" @change="inputEvent"></md-input>
+           <md-input name="telefono" @input="inputEvent" @change="inputEvent"></md-input>
            <span class="md-helper-text"></span>
          </md-field>
 
@@ -36,7 +38,7 @@ export default{
 
       inputEvent({ type, target }) {
 
-        this.$emit('inputEvent', this.archivo.id, target.name, target.value);
+        this.$emit('inputEvent', 0, target.name, target.value);
      }
   }
 }

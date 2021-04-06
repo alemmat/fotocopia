@@ -59,7 +59,7 @@
 
             <div style="padding-top: 2%;" class = "col-lg-12 col-md-12 col-sm-12">
 
-               <md-button class="md-raised md-raised md-primary big-button" @click="irASeccion('abonar')">ABONAR</md-button>
+               <md-button class="md-raised md-raised md-primary big-button" @click="irASeccion('abonar')">adjuntar datos pesonales</md-button>
             </div>
           </div>
 
@@ -69,17 +69,17 @@
 
           <div class="row justify-content-center">
 
-            <div style="position: block; margin:0 auto;" class = "col-lg-3 col-md-3 col-sm-3">
+            <div style="position: block; margin:0 auto;" class = "col-lg-6 col-md-6 col-sm-6">
 
+              <h1 class="md-title">Datos cliente</h1>
 
+              <cliente-component/>
             </div>
 
-            <div style="position: block; margin:0 auto;" class = "col-lg-3 col-md-3 col-sm-3">
-            </div>
 
             <div style="position: block; margin:0 auto;" class = "col-lg-6 col-md-6 col-sm-6">
 
-            
+              <preciofinal-component v-on:inputEvent="inputEvent" v-bind:archivos="archivos"/>
             </div>
           </div>
         </section>
@@ -117,7 +117,9 @@ export default {
 
     return{
 
-     cliente:{},
+     email:"",
+
+     telefono:"",
 
      archivos:[],
 
@@ -237,8 +239,7 @@ export default {
         case "hasta":
 
           this.archivo.hasta = parseInt(value, 10);
-
-          this.calcularPrecio(this.archivo)
+          this.calcularPrecio(this.archivo);
           break;
 
         case "comentarios":
@@ -249,7 +250,17 @@ export default {
         case "checkbox":
 
           this.archivo.caracteristicas = value;
-          this.calcularAdicionales(this.archivo)
+          this.calcularAdicionales(this.archivo);
+          break
+
+        case "email":
+
+          this.email = value;
+          break;
+
+        case "telefono":
+
+          this.telefono = value;
           break;
 
         default:
@@ -261,27 +272,15 @@ export default {
 
      if(archivo.desde < archivo.hasta){
 
-       var paginas =  parseInt( archivo.hasta - archivo.desde, 10);
+       var paginas =  parseInt( archivo.hasta - archivo.desde);
 
        for (var i = 0; i < this.precios.length; i++) {
+         if(paginas <= this.precios[i].numero_de_impresiones){
 
-         if( i == 0 ){
+           archivo.precio = paginas * this.precios[i].precio;
+         }else{
 
-           if( paginas <= this.precios[i].numero_de_impresiones ){
-
-             archivo.precio = paginas * this.precios[i].precio;
-             break;
-           }
-         }else {
-
-           if( parseInt( this.precios[i-1].numero_de_impresiones, 10) < paginas ){
-
-             if( paginas <= parseInt( this.precios[i].numero_de_impresiones, 10 ) ){
-
-               archivo.precio = paginas * this.precios[i].precio;
-               break;
-             }
-           }
+           archivo.precio = paginas * this.precios[i].precio;
          }
        }
      }

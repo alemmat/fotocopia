@@ -40,7 +40,9 @@ Vue.component('cliente-component', require('./components/Cliente.vue').default);
 
 Vue.component('imprenta-component', require('./components/Imprenta.vue').default);
 
-Vue.component('cardbuttom-component', require('./components/CardButtom.vue').default);
+Vue.component('cliente-component', require('./components/Cliente.vue').default);
+
+Vue.component('preciofinal-component', require('./components/PrecioFinal.vue').default);
 
 const app = new Vue({
     el: '#app',
