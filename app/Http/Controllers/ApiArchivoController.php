@@ -12,9 +12,7 @@ use App\Models\Archivo;
 class ApiArchivoController extends Controller
 {
 
-    public function store(Request $request){
-
-      Log::debug($request);
+    public function store(Request $request){    
 
       $metaDataArchivo = json_decode( $request->input('metaDataArchivo') );
 

@@ -82,7 +82,7 @@
               <preciofinal-component v-bind:archivos="archivos"/>
             </div>
 
-            <md-button class="md-raised md-raised md-primary big-button" @click="">abonar</md-button>
+            <md-button class="md-raised md-raised md-primary big-button" @click="generarTrabajo">abonar</md-button>
           </div>
         </section>
 
@@ -176,21 +176,26 @@ export default {
 
     generarTrabajo(){
 
-      axios.post('/api/trabajos', {centroDeCopiadoId:this.centroDeCopiado.id})
-      .then(res => this.trabajo = res.data)
+      axios.post('/api/trabajos', {centroDeCopiadoId:this.centroDeCopiado.id,email:this.email,telefono:this.telefono})
+      .then(( res ) => {
+
+        this.postTrabajos(res.data)
+      })
       .catch(function (error) {
-          currentObj.output = error;
+        console.log(error)
+
       });
 
     },
 
-    postTrabajos(){
+    postTrabajos(idTrbj){
+
 
       for (var i = 0; i < this.archivos.length; i++) {
 
         var formData = new FormData();
 
-        formData.append( 'trabajo', this.trabajo );
+        formData.append( 'trabajo', idTrbj );
         formData.append( 'archivo', this.archivos[i].file) ;
         formData.append( 'metaDataArchivo', JSON.stringify(this.archivos[i]) );
 
